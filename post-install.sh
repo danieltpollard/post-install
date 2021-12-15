@@ -41,10 +41,10 @@ apt install -y docker.io
 apt install -y syncthing
 # Setup - see https://www.tylerburton.ca/2016/02/setting-up-syncthing-to-share-files-on-linux/
 # ... syncthing user service
-su kali
 mkdir -p ~kali/.config/systemd/user
 cp /usr/lib/systemd/user/syncthing.service ~kali/.config/systemd/user/
-exit
+chown kali:kali ~kali/.config/systemd/user
+chown kali:kali ~kali/.config/systemd/user/syncthing.service
 
 echo "[*] .zshrc Functions & Aliases..."
 cp ~kali/.zshrc ~kali/.zshrc.orig
@@ -53,10 +53,10 @@ cat << EOT >> ~kali/.zshrc
 alias stripcolours='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g"'
 
 createclient(){
-	result=${PWD##*/} 
-	if [ "$result" == 'Client' ]; then
-		mkdir "$1";
-		cd "$1";
+	result=\${PWD##*/} 
+	if [ "\$result" == 'Client' ]; then
+		mkdir "\$1";
+		cd "\$1";
 		mkdir by-ip;
 		mkdir by-hostname;
 		mkdir ntlm
@@ -68,86 +68,38 @@ createclient(){
 }
 
 addip(){
-	result=${PWD##*/} 
-	if [ "$result" == 'by-ip' ]; then
-		mkdir "$1";
-		cd $1;
-		echo -n "$1"  > ip
+	result=\${PWD##*/} 
+	if [ "\$result" == 'by-ip' ]; then
+		mkdir "\$1";
+		cd \$1;
+		echo -n "\$1"  > ip
 	else
 		echo 'Wrong Directory';
 	fi
 }  
 
 addhost(){
-	result=${PWD##*/} 
-	if [ "$result" == 'by-hostname' ]; then
-		if [ "$2" != "" ]; then 
-			ln -s "../by-ip/$2" "$1";
-			cd "$1"
-			echo -n $1  > hostname
+	result=\${PWD##*/} 
+	if [ "\$result" == 'by-hostname' ]; then
+		if [ "\$2" != "" ]; then 
+			ln -s "../by-ip/\$2" "\$1";
+			cd "\$1"
+			echo -n \$1  > hostname
 		else
 			echo 'Missing 2nd Parameter?'
 		fi
-	elif [[ $result =~ [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+	elif [[ \$result =~ [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
 		# Assume we're in the folder they wanted, so don't care about the IP
-		ln -s "../by-ip/$result" "../../by-hostname/$1";
-		echo -n $1 > hostname
+		ln -s "../by-ip/$result" "../../by-hostname/\$1";
+		echo -n \$1 > hostname
 	else
 		echo 'Wrong Directory';
 	fi
 }
 EOT
 # Do the same for root
-cp ~/.zshrc ~/.zshrc.orig
-cat << EOT >> ~/.zshrc
-# Functions & Aliases
-alias stripcolours='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g"'
+# TODO
 
-createclient(){
-	result=${PWD##*/} 
-	if [ "$result" == 'Client' ]; then
-		mkdir "$1";
-		cd "$1";
-		mkdir by-ip;
-		mkdir by-hostname;
-		mkdir ntlm
-		mkdir hashes
-		mkdir loot
-	else
-		echo 'Wrong Directory';	
-	fi
-}
-
-addip(){
-	result=${PWD##*/} 
-	if [ "$result" == 'by-ip' ]; then
-		mkdir "$1";
-		cd $1;
-		echo -n "$1"  > ip
-	else
-		echo 'Wrong Directory';
-	fi
-}  
-
-addhost(){
-	result=${PWD##*/} 
-	if [ "$result" == 'by-hostname' ]; then
-		if [ "$2" != "" ]; then 
-			ln -s "../by-ip/$2" "$1";
-			cd "$1"
-			echo -n $1  > hostname
-		else
-			echo 'Missing 2nd Parameter?'
-		fi
-	elif [[ $result =~ [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-		# Assume we're in the folder they wanted, so don't care about the IP
-		ln -s "../by-ip/$result" "../../by-hostname/$1";
-		echo -n $1 > hostname
-	else
-		echo 'Wrong Directory';
-	fi
-}
-EOT
 echo "[*] Done!"
 
 echo "[!] Syncthing - run following as standard user to enable service"
