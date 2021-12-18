@@ -28,7 +28,7 @@ echo "[\e[1;32m*\e[m] Config Changes..."
 cd /etc/ssh
 rm ssh_host_*
 dpkg-reconfigure openssh-server
-/etc/init.d/ssh restart
+# /etc/init.d/ssh restart # Uncomment this line to start SSH service
 cd ~
 
 echo "[\e[1;32m*\e[m] Tools..."
@@ -38,11 +38,8 @@ apt install -y python3-pip
 git clone https://github.com/ChrisTruncer/EyeWitness.git /opt/EyeWitness
 /opt/EyeWitness/Python/setup/setup.sh
 # PCredz
-apt install python3-pip && apt install libpcap-dev && pip3 install Cython && pip3 install python-libpcap
+apt install -y python3-pip libpcap-dev && pip3 install Cython && pip3 install python-libpcap
 git clone https://github.com/lgandx/PCredz.git /opt/PCredz
-
-# Crackmapexec
-apt install crackmapexec
 
 # Docker
 apt install -y docker.io
