@@ -1,14 +1,14 @@
 #!/bin/bash
 
 if (( $EUID != 0 )); then
-	echo "Please run as root"
+	echo "\e[1;31mPlease run as root\e[m"
 	exit
 fi
 
-echo "[*] Updating..."
+echo "[\e[1;32m*\e[m] \e[0;32mUpdating...\e[m"
 apt update && apt upgrade -y
 
-echo "[*] Installing standard tools..."
+echo "[\e[1;32m*\e[m] \e[0;32mInstalling standard tools...\e[m"
 # Terminal
 apt install -y terminator
 
@@ -21,7 +21,7 @@ rm rsh-client_0.17-17+b1_amd64.deb
 # Others
 apt install -y seclists
 
-echo "[*] Config Changes..."
+echo "[\e[1;32m*\e[m] Config Changes..."
 # Set default terminal
 #TODO Find out how to do this one!
 # Remove the default SSH keys
@@ -31,7 +31,7 @@ dpkg-reconfigure openssh-server
 /etc/init.d/ssh restart
 cd ~
 
-echo "[*] Tools..."
+echo "[\e[1;32m*\e[m] Tools..."
 apt install -y python3-pip
 
 # EyeWitness
@@ -56,7 +56,7 @@ cp /usr/lib/systemd/user/syncthing.service ~kali/.config/systemd/user/
 chown kali:kali ~kali/.config/systemd/user
 chown kali:kali ~kali/.config/systemd/user/syncthing.service
 
-echo "[*] .zshrc Functions & Aliases..."
+echo "[\e[1;32m*\e[m] .zshrc Functions & Aliases..."
 cp ~kali/.zshrc ~kali/.zshrc.orig
 mkdir ~kali/Client
 chown kali:kali ~kali/Client
@@ -112,10 +112,11 @@ EOT
 # Do the same for root
 # TODO
 
-echo "[*] Done!"
+echo "[\e[1;32m*\e[m] Done!"
 
-echo "[!] Syncthing - run following as standard user to enable service"
+echo "[\e[1;31m!\e[m] Syncthing - run following as standard user to enable service"
 echo "systemctl --user enable syncthing.service"
 echo "systemctl --user start syncthing.service"
-echo "[!] Keyboard - change layout"
+echo "[\e[1;31m!\e[m] Keyboard - change layout"
 echo "sudo dpkg-reconfigure keyboard-configuration"
+echo "[\e[1;31m!\e[m] Don't forget to change your password"
