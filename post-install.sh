@@ -11,6 +11,7 @@ apt update && apt upgrade -y
 echo "[*] Installing standard tools..."
 # Terminal
 apt install -y terminator
+
 # CRT 
 apt install -y rsh-client ipcalc finger nbtscan-unixwiz
 # ... need an old version of rsh-client
@@ -32,11 +33,20 @@ cd ~
 
 echo "[*] Tools..."
 apt install -y python3-pip
+
 # EyeWitness
 git clone https://github.com/ChrisTruncer/EyeWitness.git /opt/EyeWitness
 /opt/EyeWitness/Python/setup/setup.sh
+# PCredz
+apt install python3-pip && apt install libpcap-dev && pip3 install Cython && pip3 install python-libpcap
+git clone https://github.com/lgandx/PCredz.git /opt/PCredz
+
+# Crackmapexec
+apt install crackmapexec
+
 # Docker
 apt install -y docker.io
+
 # Syncthing
 apt install -y syncthing
 # Setup - see https://www.tylerburton.ca/2016/02/setting-up-syncthing-to-share-files-on-linux/
@@ -48,6 +58,8 @@ chown kali:kali ~kali/.config/systemd/user/syncthing.service
 
 echo "[*] .zshrc Functions & Aliases..."
 cp ~kali/.zshrc ~kali/.zshrc.orig
+mkdir ~kali/Client
+chown kali:kali ~kali/Client
 cat << EOT >> ~kali/.zshrc
 # Functions & Aliases
 alias stripcolours='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g"'
@@ -105,3 +117,5 @@ echo "[*] Done!"
 echo "[!] Syncthing - run following as standard user to enable service"
 echo "systemctl --user enable syncthing.service"
 echo "systemctl --user start syncthing.service"
+echo "[!] Keyboard - change layout"
+echo "sudo dpkg-reconfigure keyboard-configuration"
