@@ -99,7 +99,7 @@ addhost(){
 		fi
 	elif [[ \$result =~ [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
 		# Assume we're in the folder they wanted, so don't care about the IP
-		ln -s "../by-ip/$result" "../../by-hostname/\$1";
+		ln -s "../by-ip/\$result" "../../by-hostname/\$1";
 		echo -n \$1 > hostname
 	else
 		echo 'Wrong Directory';
