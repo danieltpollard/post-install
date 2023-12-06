@@ -40,6 +40,8 @@ git clone https://github.com/ChrisTruncer/EyeWitness.git /opt/EyeWitness
 # PCredz
 apt install -y python3-pip libpcap-dev && pip3 install Cython && pip3 install python-libpcap
 git clone https://github.com/lgandx/PCredz.git /opt/PCredz
+# MITM6
+git clone https://github.com/dirkjanm/mitm6.git /opt/mitm6
 
 # Docker
 apt install -y docker.io
