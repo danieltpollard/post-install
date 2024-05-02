@@ -8,17 +8,10 @@ fi
 echo -e "[\e[1;32m*\e[m] \e[0;32mUpdating...\e[m"
 apt update && apt upgrade -y
 
-echo -e "[\e[1;32m*\e[m] \e[0;32mInstalling standard tools...\e[m"
+echo -e "[\e[1;32m*\e[m] \e[0;32mInstalling additional tools...\e[m"
 # Terminal
 apt install -y terminator
-
-# CRT 
-apt install -y rsh-client ipcalc finger nbtscan-unixwiz
-# ... need an old version of rsh-client
-curl -O http://http.us.debian.org/debian/pool/main/n/netkit-rsh/rsh-client_0.17-17+b1_amd64.deb
-dpkg -i rsh-client_0.17-17+b1_amd64.deb
-rm rsh-client_0.17-17+b1_amd64.deb
-# Others
+apt install -y ipcalc nbtscan-unixwiz
 apt install -y seclists
 
 echo -e "[\e[1;32m*\e[m] Config Changes..."
@@ -33,16 +26,15 @@ cd ~
 
 echo -e "[\e[1;32m*\e[m] Tools..."
 apt install -y python3-pip
-
-# EyeWitness
-git clone https://github.com/ChrisTruncer/EyeWitness.git /opt/EyeWitness
-/opt/EyeWitness/Python/setup/setup.sh
 # PCredz
 apt install -y python3-pip libpcap-dev && pip3 install Cython && pip3 install python-libpcap
 git clone https://github.com/lgandx/PCredz.git /opt/PCredz
 # MITM6
 git clone https://github.com/dirkjanm/mitm6.git /opt/mitm6
-
+# NetExec
+sudo apt install pipx git
+pipx ensurepath
+pipx install git+https://github.com/Pennyw0rth/NetExec
 # Docker
 apt install -y docker.io
 
@@ -106,6 +98,9 @@ addhost(){
 	else
 		echo 'Wrong Directory';
 	fi
+}
+startlog(){
+	script "$(date +%F-%R)-$1.log"
 }
 EOT
 # Do the same for root
