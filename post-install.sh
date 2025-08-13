@@ -29,7 +29,8 @@ cd ~
 echo -e "[\e[1;32m*\e[m] Tools..."
 apt install -y python3-pip
 # PCredz
-apt install -y python3-pip libpcap-dev && pip3 install Cython && pip3 install python-libpcap
+# NOTE: no longer installing the libraries as they won't work. Use docker 
+# apt install -y python3-pip libpcap-dev && pip3 install Cython && pip3 install python-libpcap
 git clone https://github.com/lgandx/PCredz.git /opt/PCredz
 # MITM6
 git clone https://github.com/dirkjanm/mitm6.git /opt/mitm6
