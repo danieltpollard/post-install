@@ -38,8 +38,8 @@ apt install -y docker.io
 
 echo -e "[\e[1;32m*\e[m] .zshrc Functions & Aliases..."
 cp ~kali/.zshrc ~kali/.zshrc.orig
-mkdir ~kali/Client
-chown kali:kali ~kali/Client
+mkdir ~kali/Documents/Client
+chown kali:kali ~kali/Documents/Client
 cat << EOT >> ~kali/.zshrc
 # Functions & Aliases
 alias stripcolours='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g"'
