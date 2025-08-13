@@ -11,7 +11,9 @@ apt update && apt upgrade -y
 echo -e "[\e[1;32m*\e[m] \e[0;32mInstalling additional tools...\e[m"
 # Terminal
 apt install -y terminator
+# Useful tools
 apt install -y ipcalc nbtscan-unixwiz
+# Seclists wordlists
 apt install -y seclists
 
 echo -e "[\e[1;32m*\e[m] Config Changes..."
@@ -31,21 +33,8 @@ apt install -y python3-pip libpcap-dev && pip3 install Cython && pip3 install py
 git clone https://github.com/lgandx/PCredz.git /opt/PCredz
 # MITM6
 git clone https://github.com/dirkjanm/mitm6.git /opt/mitm6
-# NetExec
-sudo apt install pipx git
-pipx ensurepath
-pipx install git+https://github.com/Pennyw0rth/NetExec
 # Docker
 apt install -y docker.io
-
-# Syncthing
-apt install -y syncthing
-# Setup - see https://www.tylerburton.ca/2016/02/setting-up-syncthing-to-share-files-on-linux/
-# ... syncthing user service
-mkdir -p ~kali/.config/systemd/user
-cp /usr/lib/systemd/user/syncthing.service ~kali/.config/systemd/user/
-chown kali:kali ~kali/.config/systemd/user
-chown kali:kali ~kali/.config/systemd/user/syncthing.service
 
 echo -e "[\e[1;32m*\e[m] .zshrc Functions & Aliases..."
 cp ~kali/.zshrc ~kali/.zshrc.orig
@@ -60,9 +49,9 @@ createclient(){
 	if [ "\$result" == 'Client' ]; then
 		mkdir "\$1";
 		cd "\$1";
+  		mkdir targets;
 		mkdir by-ip;
 		mkdir by-hostname;
-		mkdir ntlm
 		mkdir hashes
 		mkdir loot
 	else
@@ -108,9 +97,6 @@ EOT
 
 echo -e "[\e[1;32m*\e[m] Done!"
 
-echo -e "[\e[1;31m!\e[m] Syncthing - run following as standard user to enable service"
-echo -e "systemctl --user enable syncthing.service"
-echo -e "systemctl --user start syncthing.service"
 echo -e "[\e[1;31m!\e[m] Keyboard - change layout"
 echo -e "sudo dpkg-reconfigure keyboard-configuration"
 echo -e "[\e[1;31m!\e[m] Don't forget to change your password"
